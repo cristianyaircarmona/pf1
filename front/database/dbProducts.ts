@@ -29,17 +29,22 @@ export const getAllProductSlugs = async (): Promise<ProductSlug[]> => {
 
 export const getProductsByTerm = async (term: string): Promise<IProduct[]> => {
   term = term.toString().toLowerCase();
+  
+    let response = await fetch('https://globalmarkets.herokuapp.com/products').then(res=>res.json());
+    let products = response.filter((i:any)=>{
+        let tag = Array.isArray(i.tags)? i.tags[0] : i.tags
+        if(i.title.toLowerCase().includes(term)) return i;
+        else if(i.description.toLowerCase().includes(term)) return i;
+        else if(!!i.slug && i.slug.toLowerCase().includes(term)) return i;
+        else if(!!i.tags && tag.toLowerCase().includes(term)) return i;
+        else if(!!i.gender && i.gender.toLowerCase().includes(term)) return i;
+        else if(!!i.types && i.types.toLowerCase().includes(term))return i;
+        else if(!!i.caterogiras && i.caterogiras.length > 0 && i.caterogiras[0].toLowerCase().includes(term)) return i
+    })
 
-  await db.connect();
-  const products = await models.Product.find({
-    $text: { $search: term },
-  })
-    .select("title images price inStock slug -_id")
-    .lean();
 
-  await db.disconnect();
-
-  return products;
+    
+    return products;
 };
 
 export const getAllProducts = async (): Promise<IProduct[]> => {

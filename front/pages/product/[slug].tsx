@@ -206,16 +206,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     if(i._id == slug) return i
     else if (i.slug == slug) return i
   })
-  /*
-  if(product.length > 1) {
-    console.log(product)
-    return {
-      redirect: {
-        destination: '/category/men',
-        permanent: false
-      }
-    }
-  }*/
   if ( !product[0] ) {
     
     return {

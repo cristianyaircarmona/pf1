@@ -1,8 +1,11 @@
-import type { NextPage, GetServerSideProps } from 'next';
+import type { NextPage, GetServerSideProps,GetStaticPaths,GetStaticProps } from 'next';
 import { Typography,Box } from '@mui/material';
 import { ShopLayout } from '../../components/layouts';
 import { ProductList } from '../../components/products';
 import { IProduct } from '../../interfaces';
+import { dbProducts } from '../../database';
+
+
 interface Props {
     products: IProduct[];
     foundProducts: boolean;
@@ -32,7 +35,41 @@ const SearchPage: NextPage<Props> = ({ products, foundProducts, query }) => {
         </ShopLayout>
     )
 };
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+    
+    const { query = '' } = params as { query: string };
 
+    if ( query.length === 0 ) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: true
+            }
+        }
+    }
+
+    // y no hay productos
+    let products = await dbProducts.getProductsByTerm( query );
+    const foundProducts = products.length > 0;
+
+    // TODO: retornar otros productos
+    if ( !foundProducts ) {
+        // products = await dbProducts.getAllProducts(); 
+        products = await (await dbProducts.getProductsByTerm('videojuegos')).slice(0,6);
+    }
+
+    return {
+        props: {
+            products,
+            foundProducts,
+            query
+        }
+    }
+}
+
+
+
+/*
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     
     const { query = '' } = params as { query: string };
@@ -78,4 +115,46 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
     
 }
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+  
+    const productSlugs = await fetch("https://globalmarkets.herokuapp.com/products").then(res=>res.json());
+  
+  
+    
+    return {
+      paths: productSlugs.map( (i:any) => ({
+        params: {
+          slug : i._id? `${i._id}` : `${i.slug}`
+        }
+      })),
+      fallback: 'blocking'
+    }
+  }
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  
+    const { slug = '' } = params as { slug: string };
+    const prueba = await fetch(`https://globalmarkets.herokuapp.com/products`).then(res=>res.json());
+    const product = prueba.filter((i)=>{
+      if(i._id == slug) return i
+      else if (i.slug == slug) return i
+    })
+    if ( !product[0] ) {
+      
+      return {
+        redirect: {
+          destination: '/cart',
+          permanent: false
+        }
+      }
+    }
+    
+    return {
+      
+      props: {
+        product
+      }
+    }
+  }
+  */
 export default SearchPage;
