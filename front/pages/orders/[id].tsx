@@ -1,12 +1,9 @@
 import NextLink from 'next/link';
 
 import { Link, Box, Card, CardContent, Divider, Grid, Typography, Chip, Button, CardActionArea,CardMedia  } from '@mui/material';
-import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 import { GetServerSideProps } from 'next';
 import { ShopLayout } from '../../components/layouts/ShopLayout';
-import { CartList, OrderSummary } from '../../components/cart';
 import {currency} from "../../utils"
-import { PayPalButton } from "react-paypal-button-v2";
 import { useRouter } from 'next/router'
 import {useState, useEffect} from "react"
 
@@ -46,6 +43,9 @@ const OrderPage =  ({date}) => {
 
     const handleSubmit= async (e:any)=>{
         try{ 
+            click=true
+            console.log("click", click)
+
             const p= await fetch(`http://localhost:9000/orders/${date._id}`,{
                 method:"PUT",
                 headers:{
@@ -64,7 +64,7 @@ const OrderPage =  ({date}) => {
     
 
     const p= date.isPaid
-
+    var click= new Boolean(false)
 
 
 
@@ -117,7 +117,7 @@ const OrderPage =  ({date}) => {
                        
                     </Grid>
                 </Grid>
-            ))
+            ))  
         }
     </>
             </Grid>
@@ -129,10 +129,12 @@ const OrderPage =  ({date}) => {
 
                         <Box display='flex' justifyContent='space-between'>
                             <Typography variant='subtitle1'>Dirección de entrega</Typography>
-                            <NextLink href='/checkout/address' passHref>
+                            <NextLink href={`editId/${date._id}`} passHref>
+                                <Button>
                                 <Link underline='always'>
                                     Editar
                                 </Link>
+                                </Button>
                             </NextLink>
                         </Box>
 
@@ -181,7 +183,7 @@ const OrderPage =  ({date}) => {
                 </Grid>
 
                         <Box sx={{ mt: 3 }}>disabled
-                        <Button onClick={handleSubmit} disabled={p===true}  color="secondary" className='circular-btn' fullWidth   >
+                        <Button onClick={handleSubmit} disabled={p===true|| click===true}  color="secondary" className='circular-btn' fullWidth   >
                             <Link href={`${ordersP}`} >pagar</Link>
                         </Button>
                         </Box>

@@ -5,24 +5,25 @@ import BungalowOutlinedIcon from '@mui/icons-material/BungalowOutlined';
 import SurfingOutlinedIcon from '@mui/icons-material/SurfingOutlined';
 import TvOutlinedIcon from '@mui/icons-material/TvOutlined';
 import AccessibilityOutlinedIcon from '@mui/icons-material/AccessibilityOutlined';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Icon } from '@mui/material';
+import { ShopLayout } from '../../components/layouts';
+import { NextPage } from 'next';
 
 
-export default function form() {
+const Form:NextPage =  () => {
   return (
-    <div>
-        <div>
-            <h1>Bienvenido, aqui podras publicar un producto </h1>
-        </div>
-        <Grid container>
+    <ShopLayout title='Bienvenido, aqui podras publicar un producto' pageDescription='Formularios para crear productos' >
+        <Box sx={{backgroundColor:'red',textAlign:'center',alignContent:'center'}}  >
+        <Typography variant='h1' component='h1'>Bienvenido, aqui podras publicar un producto</Typography>
+        <Grid container sx={{alignContent:'center'}} >
             <Grid item xs={2}>
                 <Box border={2}>
                     <Link href="formIndumentaria" >
                         <Button 
                             endIcon={<AccessibilityOutlinedIcon></AccessibilityOutlinedIcon>} >
-                            Indumentaria
+                            Moda
                         </Button>
                     </Link>
                     
@@ -68,9 +69,10 @@ export default function form() {
                 
             </Grid>
         </Grid>
-    </div>
-
+    </Box>
+</ShopLayout>
 
     
   )
 };
+export default Form;

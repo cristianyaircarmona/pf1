@@ -8,6 +8,8 @@ interface Props {
     query: string;
 };
 
+
+
 const SearchPage: NextPage<Props> = ({query}) => {
     const {products} = useProducts('/products');
     const prueba = ()=>{
