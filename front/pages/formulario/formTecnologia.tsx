@@ -149,7 +149,7 @@ function FormTecnologia() {
                 <Button color="secondary" className="circular-btn" size="large" onClick={handleSubmit} > Crear</Button>
             </Box>
             <Box sx={{ mt: 5 }} display='flex' >
-                <Link href="/home">
+                <Link href="/">
                     <Button color="secondary" size="large"  className="circular-btn" > HOME </Button  >
                 </Link>
 
