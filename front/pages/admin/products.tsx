@@ -65,6 +65,7 @@ const OrdersPage = () => {
 
 
 useEffect(()=>{
+    user?.role !== 'admin'? router.push('/') : null
     async function fetchData(){
         try {
             const t= await fetch(`https://globalmarkets13.herokuapp.com/products/`,{

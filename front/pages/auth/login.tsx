@@ -127,15 +127,15 @@ const LoginPage = () => {
                         </Grid>
 
                         <Grid item xs={12}>
-                        <NextLink href="https://globalmarkets13.herokuapp.com/login" passHref>
+                        <NextLink href="/api/auth/signin" passHref>
                            <Link underline='always'>
                             <Button
-                                onClick={ () => navigateTo('https://globalmarkets13.herokuapp.com/login') }
+                                onClick={ () => navigateTo('/api/auth/signin') }
                                 color="secondary"
                                 className='circular-btn'
                                 size='large'
                                 fullWidth>
-                                Ingresar con Google
+                                Ingresar con Github
                             </Button>
                             </Link>
                             </NextLink>

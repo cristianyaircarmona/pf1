@@ -62,6 +62,7 @@ const HistoryPage =  () => {
     
 
     useEffect(()=>{
+        !isLoggedIn? router.push('/') : null
         async function fetchData(){
             try {
                 const t= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAll`,{
@@ -114,9 +115,8 @@ const HistoryPage =  () => {
                         headers:{
                             "Content-type":"application/json"
                         },
-                        body: JSON.stringify({isPaid:true})
+                        body: JSON.stringify({isPaid:true,email:p.userId})
                     })
-                    
             p.orderItems?.map(async (t:any)=>{
                                 const product= await fetch(`https://globalmarkets13.herokuapp.com/products/${t._id}`,{
                                     method:"GET",
@@ -125,7 +125,7 @@ const HistoryPage =  () => {
                                     },
         
                                 }).then(r=>r.json());
-                                var nvoStock= product.inStock - (t.quantity / 4);
+                                var nvoStock= product.inStock - (t.quantity);
                                 console.log("stock", nvoStock)
                                 const i= await fetch(`https://globalmarkets13.herokuapp.com/products/${t._id}`,{
                             method:"PUT",

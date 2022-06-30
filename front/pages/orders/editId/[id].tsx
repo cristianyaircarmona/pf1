@@ -9,15 +9,16 @@ import { GetServerSideProps } from 'next';
 export var ordenP
 const AddressPage = ({date}) => {
     const router = useRouter()
-
+    console.log("esto es date",date);
+    
     const [input,setInput]= useState({
-        firstName:"",
-        lastName:"",
-        address:"",
-        zip:"",
-        city:"",
-        country:"",
-        phone:""
+        firstName:date.shippingAddress.firstName,
+        lastName:date.shippingAddress.lastName,
+        address:date.shippingAddress.address,
+        zip:date.shippingAddress.zip,
+        city:date.shippingAddress.city,
+        country:date.shippingAddress.country,
+        phone:date.shippingAddress.phone
 
 
     })

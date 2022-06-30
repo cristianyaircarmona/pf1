@@ -8,6 +8,7 @@ import { AdminLayout } from '../../components/layouts'
 import { IOrder, IUser } from '../../interfaces';
 import React,{useContext} from "react"
 import {AuthContext} from "../../context/auth/AuthContext"
+import { useRouter } from 'next/router';
 
 
 const columns:GridColDef[] = [
@@ -46,9 +47,9 @@ const OrdersPage = () => {
     const{user,isLoggedIn}=useContext(AuthContext)
     var inicio:any[] = []
     const [orders, setOrders]= useState(inicio)
-
-
+    const router = useRouter();
 useEffect(()=>{
+    user?.role !== 'admin'? router.push('/') : null
     async function fetchData(){
         try {
             const t= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAllOrders`,{

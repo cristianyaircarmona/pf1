@@ -5,10 +5,11 @@ import {useState, useEffect} from "react"
 import { AdminLayout } from '../../components/layouts'
 import React,{useContext} from "react"
 import {AuthContext} from "../../context/auth/AuthContext"
+import { CartContext } from '../../context';
+import { useRouter } from 'next/router';
 
 const handleSubmit = async (row)=>{
     try {
-        
         const borrar = await fetch(`https://globalmarkets13.herokuapp.com/users/delete/${row.row.dni}`,{
             method: "DELETE",
             headers:{
@@ -21,6 +22,22 @@ const handleSubmit = async (row)=>{
     }
 };
 
+const changeRole = async (row)=>{
+    try {
+        const rol = row.row.role === 'client'? 'admin' : 'client'
+        const update = await fetch(`https://globalmarkets13.herokuapp.com/users/${row.row.id}`,{
+            method: "PUT",
+            headers:{
+                "Content-type":"application/json"
+            },
+            body:JSON.stringify({role:rol})
+        }).then(r=>r.json());
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 
 
 const columns:GridColDef[] = [
@@ -32,9 +49,13 @@ const columns:GridColDef[] = [
         field: 'role',
         headerName: 'Rol',
         renderCell: ({ row }: GridValueGetterParams) => {
-            return row.role=="client"
-                ? ( <Chip variant='outlined' label="Cliente" color="success" /> )
-                : ( <Chip variant='outlined' label="Administrador" color="error" /> )
+            return row.role==="client"
+                ? ( <Button onClick={()=>{
+                    changeRole({row}).then(()=>location.reload())
+                }} variant='outlined'  color="success" >Cliente</Button> )
+                : ( <Button onClick={()=>{
+                    changeRole({row}).then(()=>location.reload())
+                }} variant='outlined'  color="error" >Admin</Button> )
         }
     },
     {
@@ -54,12 +75,10 @@ const columns:GridColDef[] = [
 
 
 const OrdersPage = () => {
-
     const{user,isLoggedIn}=useContext(AuthContext)
     var inicio:any[] = []
     const [users, setUsers]= useState(inicio)
-
-
+    const router = useRouter();
 useEffect(()=>{
     async function fetchData(){
         try {

@@ -6,22 +6,25 @@ import { useProducts } from "../hooks";
 import { FullScreenLoading } from "../components/ui";
 import {  useContext, useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import {getSession} from 'next-auth/react'
+import {getSession, useSession} from 'next-auth/react'
 import { useRouter } from "next/router";
 import { AuthContext } from "../context";
+
+
 const inicio : any = {
   login:false,
   email:"algo"
 }
 const HomePage: NextPage = () => {
-  console.log("esto son los cookies :",Cookie.get('token'));
-  
+  const {data:session,status} = useSession();
   const { products, isLoading } = useProducts("/products/");
   const [contador, setContador] = useState(1);
   const [page,setPage ]= useState(0);
   const [page1,setPage1] = useState(1);
   const { isLoggedIn } = useContext(AuthContext);
   const [login,setLogin] = useState(inicio);
+  console.log("esto es estatus",status);
+  
   useEffect(()=>{
     (async ()=>{
       const user = await getSession();

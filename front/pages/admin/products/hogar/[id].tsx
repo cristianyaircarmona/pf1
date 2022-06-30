@@ -1,9 +1,10 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useContext} from 'react'
 import Link from "next/link";
 import {ShopLayout} from "../../../../components/layouts/ShopLayout"
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { AuthContext } from '../../../../context';
 
 
 
@@ -11,6 +12,12 @@ import { useRouter } from 'next/router';
 let inicio:String[] = []
 let otro:any[] = []
 function FormMuebles({date}) {
+    const router = useRouter();
+    const {user} = useContext(AuthContext);
+
+    useEffect(()=>{
+    user?.role !== 'admin'? router.push('/') : null
+    },[])
     const [input, setInput]= useState({
         title:"",
         description:"",
@@ -23,7 +30,6 @@ function FormMuebles({date}) {
         
   
     })
-    const router = useRouter();
     const [image,setImage]= useState(inicio);
     const [loading,setLoading]= useState(false)
     

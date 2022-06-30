@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import {ShopLayout} from "../../../../components/layouts/ShopLayout"
 import { GetServerSideProps } from 'next';
 import { useRouter } from "next/router";
+import { useController } from "react-hook-form";
+import { AuthContext } from "../../../../context";
 
 
 
@@ -11,6 +13,12 @@ let inicio:String[] = []
 let otro:any[] = []
 
 function FormDeportes({date}) {
+    const router = useRouter();
+    const {user} = useContext(AuthContext);
+
+    useEffect(()=>{
+    user?.role !== 'admin'? router.push('/') : null
+    },[])
   const [input, setInput]= useState({
       title:"",
       description:"",
@@ -26,7 +34,6 @@ function FormDeportes({date}) {
 
   const [image,setImage]= useState(inicio);
   const [loading,setLoading]= useState(false)
-  const router = useRouter();
 
   const subirImagen= async (e:any) =>{
       

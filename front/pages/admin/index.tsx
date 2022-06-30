@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useSWR from 'swr';
 import { AttachMoneyOutlined, CreditCardOffOutlined, CreditCardOutlined, DashboardOutlined, GroupOutlined, CategoryOutlined, CancelPresentationOutlined, ProductionQuantityLimitsOutlined, AccessTimeOutlined } from '@mui/icons-material';
 
@@ -8,13 +8,17 @@ import { SummaryTile } from '../../components/admin'
 import { DashboardSummaryResponse } from '../../interfaces';
 import { tesloApi } from '../../api';
 import { GetServerSideProps } from 'next';
+import { AuthContext } from '../../context';
+import { useRouter } from 'next/router';
 
 
 
 const DashboardPage = (props) => {
+    const {user} = useContext(AuthContext);
+    const router = useRouter();
     const [refreshIn, setRefreshIn] = useState(30);
-
     useEffect(() => {
+    user?.role !== 'admin'? router.push('/') : null
     const interval = setInterval(()=>{
         console.log('Tick');
         setRefreshIn( refreshIn => refreshIn > 0 ? refreshIn - 1: 30 );

@@ -5,11 +5,17 @@ import { GetServerSideProps } from 'next';
 import { ShopLayout } from '../../../components/layouts/ShopLayout';
 import {currency} from "../../../utils"
 import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../../../context';
 
 
 const OrderPage =  ({date}) => {
-    const router = useRouter()
- 
+    const router = useRouter();
+    const {user} = useContext(AuthContext);
+
+    useEffect(()=>{
+    user?.role !== 'admin'? router.push('/') : null
+    },[])
     const p= date.isPaid
 
 

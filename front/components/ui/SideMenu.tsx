@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-
+import { useSession } from 'next-auth/react'
 
 
 
@@ -54,6 +54,7 @@ import { useRouter } from "next/router";
 import { AuthContext } from "../../context/auth/AuthContext";
 
 export const SideMenu = () => {
+  const {data:session,status} = useSession();
   const router = useRouter();
   const { isMenuOpen, toggleSideMenu } = useContext(UiContext);
   const { user, isLoggedIn, logout } = useContext(AuthContext);
@@ -71,7 +72,11 @@ export const SideMenu = () => {
   };
 
   const onLogout = () => {
-    logout();
+    if(status === 'authenticated'){
+      router.push('/api/auth/signout');
+    } else {
+      logout();
+    }
   };
 
   return (
@@ -282,7 +287,7 @@ export const SideMenu = () => {
             </>
           }
 
-          { isLoggedIn ? (<>
+          { isLoggedIn || status === 'authenticated' ? (<>
               <ListItem button onClick={() => navigateTo("/auth/user")}    >
                 <ListItemIcon>
                   <AccountCircleOutlined />
@@ -298,7 +303,7 @@ export const SideMenu = () => {
               </ListItem>
             </>) : null 
           }
-          {isLoggedIn ? (
+          {isLoggedIn || status === 'authenticated' ? (
             <ListItem button onClick={onLogout}>
               <ListItemIcon>
                 <LoginOutlined />
