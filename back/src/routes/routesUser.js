@@ -15,41 +15,19 @@ const upper=multer({dest : 'controllers/user/createUser'})
 const logon=multer({dest:'controllers/user/loginUser'})
 const passport=require('passport');
 const validateToken = require('../controllers/user/validateToken');
+router.get('/user',getUser); 
 //router.get('/', getUser);
 router.get('/:dni', getdUser);
 router.get('/name/:name', getNameUser);  
 // se requier check de express-validator 
-router.get('/user',getUser)  
 router.get('/',createUser);
 router.post('/',resgisterUser);
-//router.get('/registro',createUser);
-// passport.authenticate('local-registro',{
-//     successRedirect:'/profile',
-//     failureRedirect:'/',
-//     passReqToCallback:true
-
-// })); 
-   
-
-// [check('name','el nombre es obligatorio').not().isEmpty(),                    
-// check('surname','el surname  es obligatorio').not().isEmpty(),
-// check('Username','el username es obligatorio').not().isEmpty(),
-// check('password','la pasword es obligatoria').not().isEmpty(), 
-// check('dni','el dni es obligatorio').not().isEmpty(),
-// check('age','la edad es obligatoria').not().isEmpty(),
-// check('address','la direccion es obligatoria').not().isEmpty(),
-// check('phoneNumber','el numero de telefono es obligatorio').not().isEmpty(),
-// ]      
 router.put('/:dni', updateUser);
 router.delete('/delete/:dni', deleteUser);
 router.get('/users/login',createLogin); 
 router.post('/users/login',loginUser);
 router.get('/profile',(req,res,next)=>{
     res.render('profile');
-})
-router.get('/users/secure',validateToken)
-   
-
- 
-
+});
+router.get('/users/secure',validateToken);
 module.exports = router;   

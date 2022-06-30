@@ -20,11 +20,19 @@ const flash= require('connect-flash');
 //const passport = require("passport");
 
 // app.use(cors());
+app.use(cookieParser());
 
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200, // For legacy browser support
+  methods: "GET, PUT, DELETE, OPTIONS, POST"
+}
 const corsConfig = { 
     credentials: true,
     origin: true,
+    "Allow-Access-Control-Origin": "*"
 };
+
 app.use(cors(corsConfig));
 
 
@@ -63,7 +71,7 @@ app.set('view engine','ejs');
 
 
 app.use(session({
-   secret:'danielpercoromero',
+  secret:'danielpercoromero',
   resave:true,
   saveUninitialized:true
 }))
@@ -91,7 +99,6 @@ app.use(helmet());
 //app.use(favicon());
 
 app.use(logger("dev"));
-app.use(cookieParser());
 app.use(express.json());
 //app.use(express.methodOverride());
 app.use((req,res,next)=>{
@@ -99,14 +106,14 @@ app.use((req,res,next)=>{
   res.locals.success_msg=req.flash('success_msg');
 
   next();
-})
+});
 //Routes
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", useRoutes);
 app.use("/", rootergoogle);
 app.use(bodyParser.json());
- 
+
 //rutas passport
 
  //app.get('/',); 

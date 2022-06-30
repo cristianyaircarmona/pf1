@@ -17,7 +17,7 @@ const getProducts = (req, res) => {
     else {
         productSchema.find()
             .then((data) => {
-                res.json(data);
+                res.json(data.concat);
             })
             .catch((err) => {
                 res.json({ message: err });

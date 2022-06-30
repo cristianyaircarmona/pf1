@@ -76,7 +76,7 @@ function FormMuebles() {
             console.log("esto es el input",input);
             console.log("esto es image",image);
             
-            const res= await fetch("http://localhost:9000/products",{
+            const res= await fetch("https://globalmarkets13.herokuapp.com/products",{
                 method:"POST",
                 headers:{
                     "Content-type":"application/json"

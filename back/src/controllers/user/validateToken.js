@@ -8,10 +8,11 @@ const alert =require('alert');
 
 
 function createToken (user){   //creo el token
+    console.log("estoy en createToken");
     const token =  jwt.sign(
              {
-               Username:user.Username.toString(),
-               email:user.email.toString()        
+              Username:user.Username.toString(),
+              email:user.email.toString()        
              },
              'clave secreta',
              {expiresIn:'30d'}
@@ -55,7 +56,6 @@ function createToken (user){   //creo el token
 
 const validateToken = async function(req, res) {
     const token = req.cookies.token
-    // console.log(token)
     if (!token) {
       res.status(401).send({
         ok: false,
@@ -63,6 +63,7 @@ const validateToken = async function(req, res) {
       })
     };
    const decode = jwt.verify(token,'clave secreta')
+      console.log("estoy decode:", decode)
   //  console.log(decode);
    const email = decode.email 
    let user = await userSchema.findOne({email:email});

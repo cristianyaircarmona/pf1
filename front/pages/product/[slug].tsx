@@ -137,7 +137,7 @@ const ProductPage:NextPage<Props> = (props) => {
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
   
-  const productSlugs = await fetch("https://globalmarkets.herokuapp.com/products").then(res=>res.json());
+  const productSlugs = await fetch("https://globalmarkets13.herokuapp.com/products").then(res=>res.json());
 
 
   
@@ -154,7 +154,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   
   const { slug = '' } = params as { slug: string };
-  const prueba = await fetch(`https://globalmarkets.herokuapp.com/products`).then(res=>res.json());
+  const prueba = await fetch(`https://globalmarkets13.herokuapp.com/products`).then(res=>res.json());
   const product = prueba.filter((i)=>{
     if(i._id == slug) return i
     else if (i.slug == slug) return i

@@ -7,12 +7,9 @@ import {currency} from "../../utils"
 import { useRouter } from 'next/router'
 import {useState, useEffect} from "react"
 
+
 const OrderPage =  ({date}) => {
     const router = useRouter()
-
-    
-
-    
 
     const [ordersP, setOrdersP]= useState([])
     const [idPaypal, setIdPaypal]= useState([])
@@ -20,7 +17,7 @@ const OrderPage =  ({date}) => {
     useEffect(()=>{
         async function fetchData(){
             try {
-                const t= await fetch(`http://localhost:9000/paypal/create-order`,{
+                const t= await fetch(`https://globalmarkets13.herokuapp.com/paypal/create-order`,{
                     method:"POST",
                     headers:{
                         "Content-type":"application/json"
@@ -46,7 +43,7 @@ const OrderPage =  ({date}) => {
             click=true
             console.log("click", click)
 
-            const p= await fetch(`http://localhost:9000/orders/${date._id}`,{
+            const p= await fetch(`https://globalmarkets13.herokuapp.com/orders/${date._id}`,{
                 method:"PUT",
                 headers:{
                     "Content-type":"application/json"
@@ -61,21 +58,8 @@ const OrderPage =  ({date}) => {
         catch (err){console.log(err)}
     }
 
-    
-
     const p= date.isPaid
     var click= new Boolean(false)
-
-
-
-
-   
-
-    
-
-   
-    
-
   return (
        
 
@@ -182,9 +166,9 @@ const OrderPage =  ({date}) => {
 
                 </Grid>
 
-                        <Box sx={{ mt: 3 }}>disabled
+                        <Box sx={{ mt: 3 }}>
                         <Button onClick={handleSubmit} disabled={p===true|| click===true}  color="secondary" className='circular-btn' fullWidth   >
-                            <Link href={`${ordersP}`} >pagar</Link>
+                            <Link href={`${ordersP}`} >Pagar</Link>
                         </Button>
                         </Box>
 
@@ -200,7 +184,7 @@ const OrderPage =  ({date}) => {
 
 export const getServerSideProps: GetServerSideProps= async({req,query})=>{
     console.log("query",query.id)
-    const datos= await fetch(`http://localhost:9000/orders/${query.id}`,{
+    const datos= await fetch(`https://globalmarkets13.herokuapp.com/orders/${query.id}`,{
         method:"GET",
         headers:{
             "Content-type":"application/json"

@@ -7,6 +7,7 @@ const getOrderById= require("../controllers/orders/getOrderById")
 const getAllUserOrder= require("../controllers/orders/getAllUserOrder")
 const getAllOrders = require("../controllers/orders/getAllOrders");
 router.post("/", createOrder);
+router.get("/getAllOrders/",getAllOrders);
 
 router.put("/:id", updateOrder);
 
@@ -16,6 +17,5 @@ router.post("/getAll", getAllUserOrder);
 
 router.get("/:id", getOrderById);
 
-router.get("/getAllOrders/",getAllOrders);
 
 module.exports = router;

@@ -4,13 +4,40 @@ import { ShopLayout } from "../components/layouts";
 import { ProductList } from "../components/products";
 import { useProducts } from "../hooks";
 import { FullScreenLoading } from "../components/ui";
-import { useState } from "react";
-
+import {  useContext, useEffect, useState } from "react";
+import Cookie from "js-cookie";
+import {getSession} from 'next-auth/react'
+import { useRouter } from "next/router";
+import { AuthContext } from "../context";
+const inicio : any = {
+  login:false,
+  email:"algo"
+}
 const HomePage: NextPage = () => {
-  const { products, isLoading } = useProducts("/products");
+  console.log("esto son los cookies :",Cookie.get('token'));
+  
+  const { products, isLoading } = useProducts("/products/");
   const [contador, setContador] = useState(1);
   const [page,setPage ]= useState(0);
   const [page1,setPage1] = useState(1);
+  const { isLoggedIn } = useContext(AuthContext);
+  const [login,setLogin] = useState(inicio);
+  useEffect(()=>{
+    (async ()=>{
+      const user = await getSession();
+      if(user){
+        setLogin(prev=>{
+           prev.login = true
+           prev.email = user.user?.email
+           return prev
+        })
+      }
+      console.log(user);
+      console.log("esto es login",login);
+    })();
+    
+  },[]);
+  
 
   const next = ()=>{
         if(products.length > page + 18){
@@ -42,8 +69,8 @@ const HomePage: NextPage = () => {
     };
   return (
     <ShopLayout
-      title={"Teslo-Shop - Home"}
-      pageDescription={"Encuentra los mejores productos de Teslo aquí"}>
+      title={"Global-Market - Home"}
+      pageDescription={"Encuentra los mejores productos de Global-Market aquí"}>
       <Typography variant="h1" component="h1">
         Tienda
       </Typography>

@@ -127,11 +127,10 @@ const LoginPage = () => {
                         </Grid>
 
                         <Grid item xs={12}>
-                        {/* <NextLink href="http://localhost:9000/login" passHref> */}
-                        <NextLink href="http://localhost:9000/login" passHref>
+                        <NextLink href="https://globalmarkets13.herokuapp.com/login" passHref>
                            <Link underline='always'>
                             <Button
-                                onClick={ () => navigateTo('http://localhost:9000/login') }
+                                onClick={ () => navigateTo('https://globalmarkets13.herokuapp.com/login') }
                                 color="secondary"
                                 className='circular-btn'
                                 size='large'

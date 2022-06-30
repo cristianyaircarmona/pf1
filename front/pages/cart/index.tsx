@@ -46,7 +46,7 @@ const CartPage = () => {
 
     const enviarDatos= async()=>{
         try{
-            const t= await fetch("http://localhost:9000/orders",{
+            const t= await fetch("https://globalmarkets13.herokuapp.com/orders",{
                 method:"POST",
                 headers:{
                     "Content-type":"application/json"

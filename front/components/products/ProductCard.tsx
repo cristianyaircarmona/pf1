@@ -69,7 +69,6 @@ export const ProductCard: FC<Props> = ({ product }) => {
       : `/products/${product.images[0]}`;
   }, [isHovered, product._id, product.images]);
   const details = product._id ? product._id : product.slug;
-  //"https://meet.google.com/qwi-dxjo-ahy"
   const myLoader: any = ({ src, width, quality }) => {
     return `${src}?w=${width}&q=${quality || 75}`;
   };

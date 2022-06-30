@@ -1,37 +1,27 @@
 
 import { ConfirmationNumberOutlined } from '@mui/icons-material'
-import { Chip, Grid } from '@mui/material'
+import { Box, Button, Chip, Grid } from '@mui/material'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import useSWR from 'swr';
 import {useState, useEffect} from "react"
 import { AdminLayout } from '../../components/layouts'
-import { IOrder, IUser } from '../../interfaces';
 import React,{useContext} from "react"
 import {AuthContext} from "../../context/auth/AuthContext"
 
 
 const columns:GridColDef[] = [
-    { field: 'id', headerName: 'Orden ID', width: 250 },
-    { field: 'userId', headerName: 'Correo', width: 250 },
-    { field: 'firstName', headerName: 'Nombre', width: 300 },
-    { field: 'total', headerName: 'Monto total', width: 300 },
-    {
-        field: 'isPaid',
-        headerName: 'Pagada',
-        renderCell: ({ row }: GridValueGetterParams) => {
-            return row.isPaid
-                ? ( <Chip variant='outlined' label="Pagada" color="success" /> )
-                : ( <Chip variant='outlined' label="Pendiente" color="error" /> )
-        }
-    },
-    { field: 'noProducts', headerName: 'No.Productos', align: 'center', width: 150 },
+    { field: 'id', headerName: 'ID', width: 250 },
+    { field: 'inStock', headerName: 'Stock', width: 100 },
+    { field: 'title', headerName: 'Nombre', width: 300 },
+    { field: 'price', headerName: 'Precio Unidad', width: 150 },
+    { field: 'gender', headerName: 'Genero', align: 'center', width: 150 },
+    { field: 'category', headerName: 'Categoria', align: 'center', width: 150 },
     {
         field: 'check',
-        headerName: 'Ver orden',
+        headerName: 'Editar',
         renderCell: ({ row }: GridValueGetterParams) => {
             return (
-                <a href={ `/admin/orders/${ row.id }` } >
-                    Ver orden
+                <a href={ `/admin/products/${row.category}/${row.id}` } >
+                    Editar
                 </a>
             )
         }
@@ -51,7 +41,7 @@ const OrdersPage = () => {
 useEffect(()=>{
     async function fetchData(){
         try {
-            const t= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAllOrders`,{
+            const t= await fetch(`https://globalmarkets13.herokuapp.com/products/`,{
                 method:"GET",
                 headers:{
                     "Content-type":"application/json"
@@ -63,20 +53,18 @@ useEffect(()=>{
             console.log(err);
         }
     }
-    if(orders.length===0){
-        fetchData();
-    } 
+    if(orders.length==0) fetchData();
 },[orders])
 
 
 const rows = orders.map(p=>{
     return{
         id:p._id,
-        userId:p.userId,
-        firstName:p.shippingAddress.firstName,
-        total:p.total,
-        isPaid:p.isPaid,
-        noProducts:p.numberOfItems,
+        inStock:p.inStock,
+        title:p.title,
+        price:p.price,
+        gender:p.gender,
+        category:p.caterogiras,
 
     }
 })
@@ -84,10 +72,12 @@ const rows = orders.map(p=>{
 
   return (
     <AdminLayout 
-        title={'Ordenes'} 
-        subTitle={'Mantenimiento de ordenes'}
+        title={'Productos'} 
+        subTitle={'Mantenimiento de productos'}
         icon={ <ConfirmationNumberOutlined /> }
     >
+        <Button  color='secondary' variant='outlined' href='/formulario/form'>Crear un Producto</Button>
+        <br />
          <Grid container className='fadeIn'>
             <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                 <DataGrid 

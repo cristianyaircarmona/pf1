@@ -1,97 +1,87 @@
-import { useState, useEffect } from 'react';
-import { PeopleOutline } from '@mui/icons-material'
-import useSWR from 'swr';
-
+import { ConfirmationNumberOutlined } from '@mui/icons-material'
+import { Chip, Grid } from '@mui/material'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Grid, Select, MenuItem } from '@mui/material';
-
+import {useState, useEffect} from "react"
 import { AdminLayout } from '../../components/layouts'
-import { IUser } from '../../interfaces';
-import { tesloApi } from '../../api';
-import { useProducts } from '../../hooks/useProducts';
+import React,{useContext} from "react"
+import {AuthContext} from "../../context/auth/AuthContext"
 
 
 
 
-const UsersPage = () => {
-    
-    const { data, error } = useSWR<IUser[]>('http://localhost:9000/admin/users');
-    const [ users, setUsers ] = useState<IUser[]>([]);
-
-    useEffect(() => {
-      if (data) {
-          setUsers(data);
-      }
-    }, [data])
-    
-
-    if ( !data && !error ) return (<></>);
-
-    const onRoleUpdated = async( userId: string, newRole: string ) => {
-
-        const previosUsers = users.map( user => ({ ...user }));
-        const updatedUsers = users.map( user => ({
-            ...user,
-            role: userId === user._id ? newRole : user.role
-        }));
-
-        setUsers(updatedUsers);
-
-        try {
-            
-            await tesloApi.put('/admin/users', {  userId, role: newRole });
-
-        } catch (error) {
-            setUsers( previosUsers );
-            console.log(error);
-            alert('No se pudo actualizar el role del usuario');
+const columns:GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 250 },
+    { field: 'Username', headerName: 'Usuario', width: 250 },
+    { field: 'email', headerName: 'E-Mail', width: 300 },
+    { field: 'dni', headerName: 'DNI', width: 300 },
+    {
+        field: 'role',
+        headerName: 'Rol',
+        renderCell: ({ row }: GridValueGetterParams) => {
+            return row.role=="client"
+                ? ( <Chip variant='outlined' label="Cliente" color="success" /> )
+                : ( <Chip variant='outlined' label="Administrador" color="error" /> )
         }
+    },
+    {
+        field: 'check',
+        headerName: 'Eliminar Usuario',
+        renderCell: ({ row }: GridValueGetterParams) => {
+            return (
+                <Chip variant='outlined' label="Eliminar" color="error" />
+            )
 
+        }
+    },
+];
+
+
+
+
+const OrdersPage = () => {
+
+    const{user,isLoggedIn}=useContext(AuthContext)
+    var inicio:any[] = []
+    const [users, setUsers]= useState(inicio)
+
+
+useEffect(()=>{
+    async function fetchData(){
+        try {
+            const t= await fetch(`https://globalmarkets13.herokuapp.com/users/user/`,{
+                method:"GET",
+                headers:{
+                    "Content-type":"application/json"
+                }
+            })
+            const enviar= await t.json()
+            setUsers(enviar) 
+        } catch (err) {
+            console.log(err);
+        }
     }
+    if(users.length==0) fetchData();
+},[users])
 
 
-    const columns: GridColDef[] = [
-        { field: 'email', headerName: 'Correo', width: 250 },
-        { field: 'name', headerName: 'Nombre completo', width: 300 },
-        {
-            field: 'role', 
-            headerName: 'Rol', 
-            width: 300,
-            renderCell: ({row}: GridValueGetterParams) => {
-                return (
-                    <Select
-                        value={ row.role }
-                        label="Rol"
-                        onChange={ ({ target }) => onRoleUpdated( row.id, target.value ) }
-                        sx={{ width: '300px' }}
-                    >
-                        <MenuItem value='admin'> Admin </MenuItem>
-                        <MenuItem value='client'> Client </MenuItem>
-                        <MenuItem value='super-user'> Super User </MenuItem>
-                        <MenuItem value='SEO'> SEO </MenuItem>
-                    </Select>
-                )
-            }
-        },
-    ];
-
-    const rows = users.map( user => ({
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        role: user.role
-    }))
+const rows = users.map(p=>{
+    return{
+        id:p._id,
+        Username:p.Username,
+        email:p.email,
+        dni:p.dni,
+        role:p.role,
+    }
+})
 
 
   return (
     <AdminLayout 
         title={'Usuarios'} 
-        subTitle={'Mantenimiento de usuarios'}
-        icon={ <PeopleOutline /> }
+        subTitle={'Mantenimiento de Usuarios'}
+        icon={ <ConfirmationNumberOutlined /> }
     >
-
-
-        <Grid container className='fadeIn'>
+         <Grid container className='fadeIn'>
             <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                 <DataGrid 
                     rows={ rows }
@@ -102,10 +92,9 @@ const UsersPage = () => {
 
             </Grid>
         </Grid>
-
-
+        
     </AdminLayout>
   )
 }
 
-export default UsersPage
+export default OrdersPage

@@ -2,14 +2,18 @@ import React from 'react'
 import Link from "next/link";
 import {useState} from 'react'
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
-import {ShopLayout} from "../../components/layouts/ShopLayout"
-
+import {ShopLayout} from "../../../../components/layouts/ShopLayout"
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 
 
 let inicio:String[] = []
 let otro:any[] = []
-function FormIndumentaria() {
+
+
+function FormIndumentaria({date}) {
+
   const [input, setInput]= useState({
     title:"",
     description:"",
@@ -24,9 +28,10 @@ function FormIndumentaria() {
 
 })
 
+
 const [image,setImage]= useState(inicio);
 const [loading,setLoading]= useState(false)
-
+const router = useRouter();
 
 const subirImagen= async (e:any) =>{
     
@@ -73,19 +78,17 @@ const handleSubmit= (e:any)=>{
 }
 const postData= async(input:any)=>{
     try{
-        console.log("esto es el input",input);
-        console.log("esto es image",image);
+
         
-        const res= await fetch("https://globalmarkets13.herokuapp.com/products",{
-            method:"POST",
+        const res= await fetch(`https://globalmarkets13.herokuapp.com/products/${date._id}`,{
+            method:"PUT",
             headers:{
                 "Content-type":"application/json"
             },
             body: JSON.stringify(input)
         })
         const data= await res.json()
-        console.log(data,"data de deporte")
-
+        router.push('/admin/products')
     } catch(error){
         console.log(error)
     }
@@ -93,10 +96,14 @@ const postData= async(input:any)=>{
 
 }
   
-  return (
+return (
     <div>
         <ShopLayout title="Bienvenidos a la seccion de indumentaria" pageDescription="Bienvenidos a la seccion de indumentaria" >
-       
+        <Grid>
+                <Typography variant="h1" component="h1" textAlign="center" padding={1} >
+                    Editar 
+                </Typography >
+            </Grid>
         <FormControl onSubmit={handleSubmit} sx={{  width:"100%",alignItems:"center" }} >
             <Grid item xs={12} sm={ 10 }>             
                 <TextField label="* Nombre" variant="filled" name='title' defaultValue={input.title} onChange={(e)=> handleChange(e)} ></TextField>
@@ -133,7 +140,7 @@ const postData= async(input:any)=>{
             </Grid>
             <Grid    >
                 <FormControl sx={{ minWidth :180, padding:1,mt:1 }}>
-                    <InputLabel sx={{padding:1, mt:1}} > * Tipo de articulo </InputLabel>
+                    <InputLabel sx={{padding:1, mt:1}} > * Tallas </InputLabel>
                     <Select onChange={(e)=> handleChange(e)} name="sizes" label="Tallas" >
                         
                         <MenuItem value="XS" > xs </MenuItem>
@@ -157,11 +164,11 @@ const postData= async(input:any)=>{
                 <TextField  variant="filled" type="file" name='images' defaultValue={input.images}  onChange={(e)=>subirImagen(e)} />
             </Grid>
             <Box sx={{ mt: 5 }} display='flex' justifyContent='center' >
-                <Button color="secondary" className="circular-btn" size="large" onClick={handleSubmit} > Crear</Button>
+                <Button color="secondary" className="circular-btn" size="large" onClick={handleSubmit} >Editar</Button>
             </Box>
             <Box sx={{ mt: 5 }} display='flex' >
-                <Link href="/home">
-                    <Button color="secondary" size="large"  className="circular-btn" > HOME </Button  >
+                <Link href="/admin/products">
+                    <Button color="secondary" size="large"  className="circular-btn" > Volver </Button  >
                 </Link>
 
             </Box >
@@ -174,5 +181,22 @@ const postData= async(input:any)=>{
 
   )
 }
+
+
+export const getServerSideProps: GetServerSideProps= async({req,query})=>{
+    console.log("query",query.id)
+    const datos= await fetch(`https://globalmarkets13.herokuapp.com/products/${query.id}`,{
+        method:"GET",
+        headers:{
+            "Content-type":"application/json"
+        },
+        
+    })
+    const date= await datos.json()
+    
+    return {props:{date}}
+
+}
+
 
 export default FormIndumentaria

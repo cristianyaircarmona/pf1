@@ -5,33 +5,32 @@ import BungalowOutlinedIcon from '@mui/icons-material/BungalowOutlined';
 import SurfingOutlinedIcon from '@mui/icons-material/SurfingOutlined';
 import TvOutlinedIcon from '@mui/icons-material/TvOutlined';
 import AccessibilityOutlinedIcon from '@mui/icons-material/AccessibilityOutlined';
-import { Grid, Button, Typography } from '@mui/material';
+import { Grid, Button, Typography, Toolbar} from '@mui/material';
 import { Box } from '@mui/system';
 import { Icon } from '@mui/material';
 import { ShopLayout } from '../../components/layouts';
 import { NextPage } from 'next';
 
 
+
 const Form:NextPage =  () => {
-  return (
+return (
     <ShopLayout title='Bienvenido, aqui podras publicar un producto' pageDescription='Formularios para crear productos' >
-        <Box sx={{backgroundColor:'red',textAlign:'center',alignContent:'center'}}  >
-        <Typography variant='h1' component='h1'>Bienvenido, aqui podras publicar un producto</Typography>
-        <Grid container sx={{alignContent:'center'}} >
-            <Grid item xs={2}>
-                <Box border={2}>
+        <Box  sx={{backgroundColor:'#3D3A3A',textAlign:'center',alignContent:'center',justifyContent:'center'}}>
+        <Typography sx={{color:'lightgray'}}  variant='h1' component='h1'>Bienvenido, aqui podras publicar un producto</Typography>
+
+            <Grid item xs={4}>
+                <Box sx={{backgroundColor:'lightgray'}}  border={2}>
                     <Link href="formIndumentaria" >
                         <Button 
-                            endIcon={<AccessibilityOutlinedIcon></AccessibilityOutlinedIcon>} >
+                            endIcon={<AccessibilityOutlinedIcon></AccessibilityOutlinedIcon>}>
                             Moda
                         </Button>
                     </Link>
-                    
-                    
                 </Box>    
             </Grid>
-            <Grid item xs={2}>
-                <Box border={2}>
+        <Grid item xs={2}>
+                <Box sx={{backgroundColor:'lightgray'}} border={2}>
                     
                         <Link href="formTecnologia">
                             <Button 
@@ -46,7 +45,7 @@ const Form:NextPage =  () => {
             </Grid>
             
             <Grid item xs={2}>
-                <Box border={2}>
+                <Box sx={{backgroundColor:'lightgray'}} border={2}>
                     <Link href="formHogar">
                         <Button 
                         endIcon={<BungalowOutlinedIcon></BungalowOutlinedIcon>}>
@@ -57,7 +56,7 @@ const Form:NextPage =  () => {
                 </Box>
             </Grid>
             <Grid item xs={2}>
-                    <Box border={2}>
+                    <Box sx={{backgroundColor:'lightgray'}} border={2}>
                         <Link href="formDeporte"> 
                             <Button 
                             endIcon={<SurfingOutlinedIcon></SurfingOutlinedIcon>}>
@@ -68,11 +67,8 @@ const Form:NextPage =  () => {
                     </Box>
                 
             </Grid>
-        </Grid>
     </Box>
 </ShopLayout>
-
-    
   )
 };
 export default Form;

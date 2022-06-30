@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router'
 
 import {useState, useEffect} from "react"
+import { CartContext } from '../../context';
 
 
 
@@ -50,7 +51,7 @@ const inicio: any[] = []
 
 const HistoryPage =  () => {
     const{user,isLoggedIn}=useContext(AuthContext)
-        
+    const{cart} = useContext(CartContext);
         const userId= user?.email
     const router= useRouter()
 //    if (isLoggedIn===false){router.push("/")}
@@ -63,7 +64,7 @@ const HistoryPage =  () => {
     useEffect(()=>{
         async function fetchData(){
             try {
-                const t= await fetch(`http://localhost:9000/orders/getAll`,{
+                const t= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAll`,{
                     method:"POST",
                     headers:{
                         "Content-type":"application/json"
@@ -99,7 +100,7 @@ const HistoryPage =  () => {
 
     let array= result.map(async p =>{
         try{
-            const r= await fetch(`http://localhost:9000/paypal/getDataOrderById/${p.paypalId}`,{
+            const r= await fetch(`https://globalmarkets13.herokuapp.com/paypal/getDataOrderById/${p.paypalId}`,{
                 method:"GET",
                 headers:{
                     "Content-type":"application/json"
@@ -108,7 +109,7 @@ const HistoryPage =  () => {
             const r2= await r.json()
 
             if(r2.status==="COMPLETED"){
-                    const q= await fetch(`http://localhost:9000/orders/${p._id}`,{
+                    const q= await fetch(`https://globalmarkets13.herokuapp.com/orders/${p._id}`,{
                         method:"PUT",
                         headers:{
                             "Content-type":"application/json"
@@ -117,7 +118,7 @@ const HistoryPage =  () => {
                     })
                     
             p.orderItems?.map(async (t:any)=>{
-                                const product= await fetch(`http://localhost:9000/products/${t._id}`,{
+                                const product= await fetch(`https://globalmarkets13.herokuapp.com/products/${t._id}`,{
                                     method:"GET",
                                     headers:{
                                         "Content-type":"application/json"
@@ -126,7 +127,7 @@ const HistoryPage =  () => {
                                 }).then(r=>r.json());
                                 var nvoStock= product.inStock - (t.quantity / 4);
                                 console.log("stock", nvoStock)
-                                const i= await fetch(`http://localhost:9000/products/${t._id}`,{
+                                const i= await fetch(`https://globalmarkets13.herokuapp.com/products/${t._id}`,{
                             method:"PUT",
                             headers:{
                                 "Content-type":"application/json"
@@ -168,7 +169,7 @@ export const datoss= async(userId)=>{
 
    
 
-    const datos= await fetch(`http://localhost:9000/orders/getAll  `,{
+    const datos= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAll  `,{
         method:"POST",
         headers:{
             "Content-type":"application/json"
