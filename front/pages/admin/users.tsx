@@ -1,11 +1,25 @@
 import { ConfirmationNumberOutlined } from '@mui/icons-material'
-import { Chip, Grid } from '@mui/material'
+import { Button, Chip, Grid } from '@mui/material'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import {useState, useEffect} from "react"
 import { AdminLayout } from '../../components/layouts'
 import React,{useContext} from "react"
 import {AuthContext} from "../../context/auth/AuthContext"
 
+const handleSubmit = async (row)=>{
+    try {
+        
+        const borrar = await fetch(`https://globalmarkets13.herokuapp.com/users/delete/${row.row.dni}`,{
+            method: "DELETE",
+            headers:{
+                "Content-type":"application/json"
+            }
+        }).then(r=>r.json());
+    } catch (error) {
+        console.log(error);
+        
+    }
+};
 
 
 
@@ -25,12 +39,13 @@ const columns:GridColDef[] = [
     },
     {
         field: 'check',
-        headerName: 'Eliminar Usuario',
+        headerName: 'Eliminar',
         renderCell: ({ row }: GridValueGetterParams) => {
             return (
-                <Chip variant='outlined' label="Eliminar" color="error" />
+                <Button onClick={()=>{
+                    handleSubmit({row}).then(()=>location.reload())
+                }} >Eliminar</Button>
             )
-
         }
     },
 ];

@@ -104,7 +104,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
                   {
                   select? (
                     <>
-                    <Chip sx={{marginLeft:0.6}} label="Escoje una talla" color="error" variant='outlined'/>
+                    <Chip sx={{marginLeft:0.6}} label="Escoje un tamaño" color="error" variant='outlined'/>
                     <Button onClick={()=>setSelect(!select)} >
                     <SizeSelector
                     sizes={ product.sizes }
@@ -136,8 +136,8 @@ export const ProductCard: FC<Props> = ({ product }) => {
               )
               }
               {tempCartProduct.size?<>
-              {`Tu talla: ${tempCartProduct.size}`}
-              <Button sx={{color:'blue'}} onClick={()=>setChange(!change)} >cambiar talla</Button>
+              {`Tu tamaño: ${tempCartProduct.size}`}
+              <Button sx={{color:'blue'}} onClick={()=>setChange(!change)} >cambiar tamaño</Button>
               </>: null}
               {change? <Button onClick={()=>setChange(!change)} >
                     <SizeSelector 

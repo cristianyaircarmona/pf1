@@ -6,7 +6,22 @@ import {useState, useEffect} from "react"
 import { AdminLayout } from '../../components/layouts'
 import React,{useContext} from "react"
 import {AuthContext} from "../../context/auth/AuthContext"
+import { useRouter } from 'next/router';
 
+const handleSubmit = async (row)=>{
+    try {
+        
+        const borrar = await fetch(`https://globalmarkets13.herokuapp.com/products/${row.row.id}`,{
+            method: "DELETE",
+            headers:{
+                "Content-type":"application/json"
+            }
+        }).then(r=>r.json());
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 
 const columns:GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 250 },
@@ -25,14 +40,25 @@ const columns:GridColDef[] = [
                 </a>
             )
         }
-    },
+    },{
+        field: 'check2',
+        headerName: 'Eliminar',
+        renderCell: ({ row }: GridValueGetterParams) => {
+            return (
+                <Button onClick={()=>{
+                    handleSubmit({row}).then(()=>location.reload())
+                }} >Eliminar </Button>
+            )
+
+        }
+    }
 ];
 
 
 
 
 const OrdersPage = () => {
-
+    var router = useRouter();
     const{user,isLoggedIn}=useContext(AuthContext)
     var inicio:any[] = []
     const [orders, setOrders]= useState(inicio)
@@ -53,8 +79,10 @@ useEffect(()=>{
             console.log(err);
         }
     }
-    if(orders.length==0) fetchData();
-},[orders])
+    if(orders.length === 0) {
+        fetchData();
+    }
+},[orders]);
 
 
 const rows = orders.map(p=>{

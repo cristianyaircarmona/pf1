@@ -38,20 +38,21 @@ export const AuthProvider:FC<any> = ({ children }) => {
 
     const checkToken = async() => {
         if (!Cookies.get('token')) { 
-            
             return ;
         }
+        const tokenn = Cookies.get('token');
+        console.log(tokenn)
         try {
-            const { data } = await tesloApi.get('/users/users/secure',{withCredentials:true});
+            const { data } = await tesloApi.post('/users/users/secure',{token:tokenn});
             const { token, user } = data;
             Cookies.set('token', token );
             dispatch({ type: '[Auth] - Login', payload: user });
         } catch (error) {
+            // console.log('estro por aqui')
             Cookies.remove('token');
-            console.log(error);
+            console.log(error)
         }
     } 
-    
 
 
 

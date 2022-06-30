@@ -1,15 +1,21 @@
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ShopLayout } from "../../components/layouts"
 import { useRouter } from 'next/router'
 import {id} from "../cart/index"
+import Cookies from 'js-cookie'
+import { CartContext } from "../../context"
+
 
 export var ordenP
+
+
+
 const AddressPage = () => {
+    const {removeAll} = useContext(CartContext)
     const router = useRouter()
     const _id= id
 
-    
 
     const [input,setInput]= useState({
 
@@ -51,7 +57,9 @@ const AddressPage = () => {
             }
 
         else{
-            sendDatos(input)
+            Cookies.remove('cart');
+            removeAll();
+            sendDatos(input);
         }   
     }
 
@@ -138,7 +146,6 @@ const AddressPage = () => {
                 Revisar pedido
             </Button>
         </Box>
-
     </ShopLayout>
   )
 }
