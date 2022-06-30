@@ -1,5 +1,6 @@
+
 import NextAuth from 'next-auth'
-import googleProvider from 'next-auth/providers/github'
+import githubProvider from 'next-auth/providers/github'
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import clientPromise from '../../../lib/mongodb'
 
@@ -7,11 +8,11 @@ import clientPromise from '../../../lib/mongodb'
 
 export default NextAuth({
     adapter: MongoDBAdapter(clientPromise),
-    providers:[googleProvider({
-        clientId:'9362d59a1c2ba7126e2a',
-        clientSecret: 'bd7d28cc6f511b1cddf0d4d8feed2a50f1f6fa95'
+    providers:[githubProvider({
+        clientId:'883a101a8d3bbb20d9ed',
+        clientSecret: '49a7c5f1e9cf510e0172e829a638358b6c4e6070'
 }
-)]})
+)]});
 
 /*
 import NextAuth from "next-auth"

@@ -23,7 +23,6 @@ const HomePage: NextPage = () => {
   const [page1,setPage1] = useState(1);
   const { isLoggedIn } = useContext(AuthContext);
   const [login,setLogin] = useState(inicio);
-  console.log("esto es estatus",status);
   
   useEffect(()=>{
     (async ()=>{
@@ -35,8 +34,6 @@ const HomePage: NextPage = () => {
            return prev
         })
       }
-      console.log(user);
-      console.log("esto es login",login);
     })();
     
   },[]);
