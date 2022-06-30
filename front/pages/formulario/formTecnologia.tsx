@@ -2,11 +2,13 @@ import React,{useState,useEffect} from 'react'
 import Link from "next/link";
 import {ShopLayout} from "../../components/layouts/ShopLayout"
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { useRouter } from 'next/router';
 
 let inicio:String[] = []
 let otro:any[] = []
 
 function FormTecnologia() {
+    const router = useRouter();
     const [input, setInput]= useState({
         title:"",
         description:"",
@@ -87,7 +89,8 @@ function FormTecnologia() {
         } catch(error){
             console.log(error)
         }
-  
+        alert('Producto Creado');
+        router.push('/admin/products')
   
     }
 

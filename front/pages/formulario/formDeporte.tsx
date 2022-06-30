@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import {ShopLayout} from "../../components/layouts/ShopLayout"
+import { useRouter } from "next/router";
 
 
 
@@ -9,6 +10,7 @@ let inicio:String[] = []
 let otro:any[] = []
 
 function FormDeportes() {
+const router = useRouter();
   const [input, setInput]= useState({
       title:"",
       description:"",
@@ -50,7 +52,7 @@ function FormDeportes() {
                     });
   } 
 
-
+   
   const handleChange= (e:any)=>{
       const {value, name}= e.target
       setInput({
@@ -88,10 +90,11 @@ function FormDeportes() {
       } catch(error){
           console.log(error)
       }
+    alert("Prodcuto Creado");
+    router.push('/admin/products')
 
+}
 
-  }
- 
     
 
 

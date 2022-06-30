@@ -17,9 +17,7 @@ function FormIndumentaria({date}) {
     const router = useRouter();
     const {user} = useContext(AuthContext);
 
-    useEffect(()=>{
-    user?.role !== 'admin'? router.push('/') : null
-    },[])
+    
   const [input, setInput]= useState({
     title:"",
     description:"",

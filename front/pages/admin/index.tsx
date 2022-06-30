@@ -18,7 +18,6 @@ const DashboardPage = (props) => {
     const router = useRouter();
     const [refreshIn, setRefreshIn] = useState(30);
     useEffect(() => {
-    user?.role !== 'admin'? router.push('/') : null
     const interval = setInterval(()=>{
         console.log('Tick');
         setRefreshIn( refreshIn => refreshIn > 0 ? refreshIn - 1: 30 );

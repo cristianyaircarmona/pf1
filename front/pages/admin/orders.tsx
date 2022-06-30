@@ -49,7 +49,6 @@ const OrdersPage = () => {
     const [orders, setOrders]= useState(inicio)
     const router = useRouter();
 useEffect(()=>{
-    user?.role !== 'admin'? router.push('/') : null
     async function fetchData(){
         try {
             const t= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAllOrders`,{

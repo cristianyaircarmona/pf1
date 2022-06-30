@@ -3,6 +3,7 @@ import Link from "next/link";
 import {useState} from 'react'
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import {ShopLayout} from "../../components/layouts/ShopLayout"
+import { useRouter } from 'next/router';
 
 
 
@@ -10,6 +11,7 @@ import {ShopLayout} from "../../components/layouts/ShopLayout"
 let inicio:String[] = []
 let otro:any[] = []
 function FormIndumentaria() {
+  const router = useRouter();
   const [input, setInput]= useState({
     title:"",
     description:"",
@@ -89,7 +91,8 @@ const postData= async(input:any)=>{
     } catch(error){
         console.log(error)
     }
-
+        alert('Producto Creado');
+        router.push('/admin/products')
 
 }
   

@@ -58,14 +58,11 @@ const columns:GridColDef[] = [
 
 
 const OrdersPage = () => {
-    var router = useRouter();
-    const{user,isLoggedIn}=useContext(AuthContext)
     var inicio:any[] = []
     const [orders, setOrders]= useState(inicio)
 
 
 useEffect(()=>{
-    user?.role !== 'admin'? router.push('/') : null
     async function fetchData(){
         try {
             const t= await fetch(`https://globalmarkets13.herokuapp.com/products/`,{

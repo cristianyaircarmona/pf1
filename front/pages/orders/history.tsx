@@ -62,7 +62,6 @@ const HistoryPage =  () => {
     
 
     useEffect(()=>{
-        !isLoggedIn? router.push('/') : null
         async function fetchData(){
             try {
                 const t= await fetch(`https://globalmarkets13.herokuapp.com/orders/getAll`,{

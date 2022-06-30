@@ -13,9 +13,6 @@ const OrderPage =  ({date}) => {
     const router = useRouter();
     const {user} = useContext(AuthContext);
 
-    useEffect(()=>{
-    user?.role !== 'admin'? router.push('/') : null
-    },[])
     const p= date.isPaid
 
 

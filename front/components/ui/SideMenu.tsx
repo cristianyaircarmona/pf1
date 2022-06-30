@@ -76,6 +76,7 @@ export const SideMenu = () => {
       router.push('/api/auth/signout');
     } else {
       logout();
+      router.push('/')
     }
   };
 
