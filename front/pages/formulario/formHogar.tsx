@@ -92,7 +92,6 @@ function FormMuebles() {
             console.log(error)
         }
         alert('Producto Creado');
-        router.push('/admin/products');
     }
    
       

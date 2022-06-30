@@ -90,7 +90,6 @@ function FormTecnologia() {
             console.log(error)
         }
         alert('Producto Creado');
-        router.push('/admin/products')
   
     }
 

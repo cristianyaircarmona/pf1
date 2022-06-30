@@ -91,7 +91,6 @@ const router = useRouter();
           console.log(error)
       }
     alert("Prodcuto Creado");
-    router.push('/admin/products')
 
 }
 

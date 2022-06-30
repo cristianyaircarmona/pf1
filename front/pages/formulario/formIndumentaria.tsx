@@ -92,7 +92,6 @@ const postData= async(input:any)=>{
         console.log(error)
     }
         alert('Producto Creado');
-        router.push('/admin/products')
 
 }
   
